@@ -1,0 +1,6 @@
+node_modules
+artdata.json
+**/*.webp
+.DS_Store
+manifest.json
+version.json

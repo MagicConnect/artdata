@@ -1,0 +1,23 @@
+{
+  "name": "magicongamedata",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "build": "npm run prepare:editordata && npm run generate:manifests",
+    "prepare:editordata": "node scripts/prepare-editordata",
+    "generate:manifests": "node scripts/generate-manifests"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/magicconnect/gamedata.git"
+  },
+  "dependencies": {
+    "fs-extra": "^10.0.1",
+    "imagemin": "^5.3.1",
+    "imagemin-webp": "^5.1.0",
+    "md5": "^2.3.0",
+    "md5-file": "^5.0.0",
+    "recursive-readdir": "^2.2.2",
+    "rimraf": "^2.7.1"
+  }
+}
