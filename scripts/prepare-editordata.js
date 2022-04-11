@@ -11,14 +11,14 @@ const resizes = {
   accessories: { width: 512, height: 512 },
   achievements: { width: 512, height: 512 },
   backgrounds: { width: 2048, height: 1024 },
-  banners: { width: 1024, height: 512 },
-  characters: { width: 512, height: 512 },
+  banners: { width: 2880, height: 1620 },
+  characters: { width: 800, height: 840 },
   charactersheets: null,
   enemies: { width: 512, height: 512 },
   enemysheets: null,
   items: { width: 512, height: 512 },
-  maps: { width: 2048, height: 1024 },
-  npcs: { width: 512, height: 512 },
+  maps: null,
+  npcs: { width: 800, height: 840 },
   skillicons: { width: 256, height: 256 },
   weapons: { width: 512, height: 512 }
 }
@@ -41,7 +41,7 @@ const compressImages = async () => {
     'weapons'
   ].forEach(async type => {
 
-    const opts = { quality: 5 };
+    const opts = { quality: 10 };
 
     if(resizes[type]) {
       opts.resize = resizes[type];
