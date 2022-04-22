@@ -3,9 +3,10 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "build": "npm run prepare:editordata && npm run generate:manifests",
+    "build": "npm run prepare:editordata && npm run generate:manifests && npm run generate:yarndata",
     "prepare:editordata": "node scripts/prepare-editordata",
-    "generate:manifests": "node scripts/generate-manifests"
+    "generate:manifests": "node scripts/generate-manifests",
+    "generate:yarndata": "node scripts/generate-yarndata"
   },
   "repository": {
     "type": "git",
