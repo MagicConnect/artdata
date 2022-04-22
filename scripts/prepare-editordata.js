@@ -6,6 +6,7 @@ const readdir = require('recursive-readdir');
 
 const imagemin = require('imagemin');
 const webp = require('imagemin-webp');
+const pngquant = require('imagemin-pngquant');
 
 const resizes = {
   accessories: { width: 512, height: 512 },
@@ -41,17 +42,26 @@ const compressImages = async () => {
     'weapons'
   ].forEach(async type => {
 
-    const opts = { quality: 10 };
+    const pngquantOpts = { quality: [0.3, 0.5] };
+    const webpOpts = { quality: 10 };
 
     if(resizes[type]) {
-      opts.resize = resizes[type];
+      webpOpts.resize = resizes[type];
     }
 
     await imagemin([
       `assets/art/${type}/*.png`
-    ], `assets/art/${type}`, {
+    ], `dist/assets/art/${type}`, {
       plugins: [
-        webp(opts)
+        pngquant(pngquantOpts)
+      ]
+    });
+
+    await imagemin([
+      `assets/art/${type}/*.png`
+    ], `dist/assets/art/${type}`, {
+      plugins: [
+        webp(webpOpts)
       ]
     });
   });
@@ -59,14 +69,15 @@ const compressImages = async () => {
 };
 
 const getAssetJSON = async () => {
-  rimraf.sync('assets/art/**/*.webp');
+  rimraf.sync('dist/assets/art/**/*.webp');
+  rimraf.sync('dist/assets/art/**/*.png');
 
   const allFiles = await readdir('./assets');
 
   const allFileRefs = {
     meta: {
-      fileExt: 'webp',
-      basePath: 'assets/art'
+      fileExt: 'png',
+      basePath: 'dist/assets/art'
     }
   };
 

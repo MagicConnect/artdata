@@ -15,6 +15,7 @@
   "dependencies": {
     "fs-extra": "^10.0.1",
     "imagemin": "^5.3.1",
+    "imagemin-pngquant": "^9.0.2",
     "imagemin-webp": "^5.1.0",
     "md5": "^2.3.0",
     "md5-file": "^5.0.0",
