@@ -8,6 +8,9 @@ const imagemin = require('imagemin');
 const webp = require('imagemin-webp');
 const pngquant = require('imagemin-pngquant');
 
+const Sharp = require('sharp');
+Sharp.cache(false);
+
 const resizes = {
   accessories: { width: 512, height: 512 },
   achievements: { width: 512, height: 512 },
@@ -45,10 +48,6 @@ const compressImages = async () => {
     const pngquantOpts = { quality: [0.3, 0.5] };
     const webpOpts = { quality: 10 };
 
-    if(resizes[type]) {
-      webpOpts.resize = resizes[type];
-    }
-
     await imagemin([
       `assets/art/${type}/*.png`
     ], `dist/assets/art/${type}`, {
@@ -64,6 +63,14 @@ const compressImages = async () => {
         webp(webpOpts)
       ]
     });
+
+    if(resizes[type]) {
+      const images = await readdir(`dist/assets/art/${type}`, ['placeholder.png']);
+      images.forEach(async imagePath => {
+        const resizedImage = await Sharp(imagePath).resize(resizes[type].width, resizes[type].height).toBuffer();
+        await Sharp(resizedImage).toFile(imagePath);
+      });
+    }
   });
 
 };
