@@ -6,7 +6,8 @@
     "build": "npm run prepare:editordata && npm run generate:manifests && npm run generate:yarndata",
     "prepare:editordata": "node scripts/prepare-editordata",
     "generate:manifests": "node scripts/generate-manifests",
-    "generate:yarndata": "node scripts/generate-yarndata"
+    "generate:yarndata": "node scripts/generate-yarndata",
+    "dangerous:removepunct": "node scripts/removepunct"
   },
   "repository": {
     "type": "git",
