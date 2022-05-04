@@ -7,7 +7,7 @@ const init = async () => {
   const images = files.filter(file => file.endsWith('.png'));
   
   images.forEach(image => {
-    const cleanName = image.split('-').join('').split('&').join('').split('_').join('');
+    const cleanName = image.split('-').join('').split('&').join('');
     fs.rename(image, cleanName);
   });
 };
