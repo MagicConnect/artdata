@@ -2,6 +2,7 @@
 const path = require('path');
 const fs = require('fs-extra');
 const readdir = require('recursive-readdir');
+const fetch = require('node-fetch');
 
 const Sharp = require('sharp');
 Sharp.cache(false);
@@ -10,6 +11,11 @@ Sharp.cache(false);
 const disallowedCharacters = ['BerylVegha'];
 
 const init = async () => {
+
+  const gamedata = await fetch(`https://gamedata.magic-connect.com/content.json`);
+  const body = await gamedata.json();
+  
+  const characterData = body.characters;
   
   const urls = [];
 
@@ -17,19 +23,27 @@ const init = async () => {
 
   const allCharacters = await readdir('assets/art/characters');
 
-  for await (const i of [1, 2, 3, 4, 5]) {
-    if(i !== 5) continue;
+  for await (const char of allCharacters) {
+    if(disallowedCharacters.some(checkChar => char.includes(checkChar))) continue;
 
-    for await (const char of allCharacters) {
-      if(disallowedCharacters.some(checkChar => char.includes(checkChar))) continue;
+    const charFileName = char.split(path.sep).pop().split('.')[0];
+
+    await fs.ensureDir(`dist/nft/${charFileName}`);
+
+    const charRef = characterData.find(c => c.art === charFileName);
+    const archetype = charRef ? charRef.archetype : null;
+
+    for await (const i of [1, 2, 3, 4, 5]) {
+      if(i !== 5) continue;
 
       // TODO: temporary until new border
-      const FROM_TOP = 100;
+      const FROM_TOP = 50;
       
       const charResized = await Sharp(char)
         .resize({ 
           width: 640,
-          height: 640
+          height: 640,
+          fit: 'contain'
         })
         .extract({
           left: 0,
@@ -39,14 +53,18 @@ const init = async () => {
         })
         .toBuffer();
 
-      const charFileName = char.split(path.sep).pop().split('.')[0];
-
-      await fs.ensureDir(`dist/nft/${charFileName}`);
+      const archetypeResized = archetype ? await Sharp(`assets/nft/classes/${archetype}.png`)
+        .resize({
+          width: 64,
+          height: 64
+        })
+        .toBuffer()
+      : null;
 
       const stars = Array(i).fill(null).map((_, i) => ({ 
         input: 'assets/nft/star.png',
-        top: 30 + (i * 20), 
-        left: 600
+        top: 50 + (i * 20), 
+        left: 580
        }));
 
       const url = `dist/nft/${charFileName}/${i}.png`;
@@ -56,7 +74,7 @@ const init = async () => {
         .composite([
           { input: `assets/nft/circles/defender.png` },
           { input: charResized, top: FROM_TOP, left: 0 },
-          { input: `assets/nft/classes/defender.png`, top: 10, left: 10 },
+          ...(archetype ? [{ input: archetypeResized, top: 50, left: 30 }] : []),
           ...stars,
           { input: `assets/nft/frame.png` },
         ]).toFile(url);

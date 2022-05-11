@@ -90,7 +90,7 @@ const getAssetJSON = async () => {
 
   allFiles.forEach(file => {
     if(file.includes('nft')) return;
-    
+
     const fileData = path.parse(file);
     const fileName = fileData.name;
     const fileType = fileData.dir.split(path.sep)[2];
