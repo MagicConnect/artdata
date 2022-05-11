@@ -5,6 +5,9 @@ const readdir = require('recursive-readdir');
 const Sharp = require('sharp');
 Sharp.cache(false);
 
+// TODO: load this and char class from game manifest
+const disallowedCharacters = ['BerylVegha'];
+
 const init = async () => {
   
   const urls = [];
@@ -17,6 +20,8 @@ const init = async () => {
     if(i !== 5) continue;
 
     for await (const char of allCharacters) {
+      if(disallowedCharacters.some(checkChar => char.includes(checkChar))) return;
+      
       const charResized = await Sharp(char)
         .resize({ 
           width: 640,
