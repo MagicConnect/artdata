@@ -22,11 +22,20 @@ const init = async () => {
 
     for await (const char of allCharacters) {
       if(disallowedCharacters.some(checkChar => char.includes(checkChar))) continue;
+
+      // TODO: temporary until new border
+      const FROM_TOP = 100;
       
       const charResized = await Sharp(char)
         .resize({ 
           width: 640,
           height: 640
+        })
+        .extract({
+          left: 0,
+          width: 640,
+          top: 0,
+          height: 640 - FROM_TOP
         })
         .toBuffer();
 
@@ -46,7 +55,7 @@ const init = async () => {
       await Sharp(`assets/nft/backgrounds/${i}.png`)
         .composite([
           { input: `assets/nft/circles/defender.png` },
-          { input: charResized },
+          { input: charResized, top: FROM_TOP, left: 0 },
           { input: `assets/nft/classes/defender.png`, top: 10, left: 10 },
           ...stars,
           { input: `assets/nft/frame.png` },
