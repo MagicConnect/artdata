@@ -4,5 +4,6 @@ artdata.json
 .DS_Store
 manifest.json
 version.json
+nfts.json
 yarn.txt
 dist

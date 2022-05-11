@@ -20,7 +20,7 @@ const init = async () => {
     if(i !== 5) continue;
 
     for await (const char of allCharacters) {
-      if(disallowedCharacters.some(checkChar => char.includes(checkChar))) return;
+      if(disallowedCharacters.some(checkChar => char.includes(checkChar))) continue;
       
       const charResized = await Sharp(char)
         .resize({ 
@@ -53,7 +53,7 @@ const init = async () => {
     }
   }
 
-  await fs.writeJson('dist/nft/manifest.json', { urls });
+  await fs.writeJson('nfts.json', { urls });
 };
 
 init();
