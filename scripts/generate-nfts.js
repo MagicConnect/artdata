@@ -1,4 +1,5 @@
 
+const path = require('path');
 const fs = require('fs-extra');
 const readdir = require('recursive-readdir');
 
@@ -29,7 +30,7 @@ const init = async () => {
         })
         .toBuffer();
 
-      const charFileName = char.split('\\').pop().split('.')[0];
+      const charFileName = char.split(path.sep).pop().split('.')[0];
 
       await fs.ensureDir(`dist/nft/${charFileName}`);
 
