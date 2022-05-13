@@ -82,7 +82,7 @@ const init = async () => {
     }
   }
 
-  await fs.writeJson('nfts.json', { urls });
+  await fs.writeJson('dist/nfts.json', { urls });
 };
 
 init();
