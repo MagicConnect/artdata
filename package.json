@@ -3,12 +3,15 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "build": "npm run prepare:editordata && npm run generate:manifests && npm run generate:yarndata && npm run generate:nfts",
+    "build": "npm run test && npm run prepare:editordata && npm run generate:manifests && npm run generate:yarndata && npm run generate:nfts",
+    "test": "npm run test:filetype",
+    "test:filetype": "node scripts/test-filetype",
     "prepare:editordata": "node scripts/prepare-editordata",
     "generate:manifests": "node scripts/generate-manifests",
     "generate:yarndata": "node scripts/generate-yarndata",
     "generate:nfts": "node scripts/generate-nfts",
-    "dangerous:removepunct": "node scripts/removepunct"
+    "dangerous:removepunct": "node scripts/removepunct",
+    "dangerous:converttopng": "node scripts/converttopng"
   },
   "repository": {
     "type": "git",
