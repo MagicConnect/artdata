@@ -12,6 +12,8 @@ const disallowedCharacters = ['BerylVegha'];
 
 const init = async () => {
 
+  fs.ensureDirSync('dist');
+
   const gamedata = await fetch(`https://gamedata.magic-connect.com/content.json`);
   const body = await gamedata.json();
   

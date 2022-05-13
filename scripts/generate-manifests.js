@@ -5,6 +5,8 @@ const md5File = require('md5-file');
 
 const generateManifest = (paths) => {
 
+  fs.ensureDirSync('dist');
+
   const manifest = {
     meta: {
       hash: ''
@@ -13,7 +15,7 @@ const generateManifest = (paths) => {
   };
 
   paths.forEach(path => {
-    const metadata = fs.readJSONSync(`${path}.json`);
+    const metadata = fs.readJSONSync(`dist/${path}.json`);
   
     Object.keys(metadata).forEach(key => {
       if(key === 'meta') return;
@@ -33,8 +35,8 @@ const generateManifest = (paths) => {
 
   manifest.meta.hash = md5(JSON.stringify(manifest.assets));
 
-  fs.writeJSONSync('manifest.json', manifest);
-  fs.writeJSONSync('version.json', { version: manifest.meta.hash });
+  fs.writeJSONSync('dist/manifest.json', manifest);
+  fs.writeJSONSync('dist/version.json', { version: manifest.meta.hash });
 };
 
 generateManifest(['artdata']);

@@ -8,6 +8,8 @@ const imagemin = require('imagemin');
 const webp = require('imagemin-webp');
 const pngquant = require('imagemin-pngquant');
 
+fs.ensureDirSync('dist');
+
 const Sharp = require('sharp');
 Sharp.cache(false);
 
@@ -76,6 +78,7 @@ const compressImages = async () => {
 };
 
 const getAssetJSON = async () => {
+
   rimraf.sync('dist/assets/art/**/*.webp');
   rimraf.sync('dist/assets/art/**/*.png');
 
@@ -84,7 +87,7 @@ const getAssetJSON = async () => {
   const allFileRefs = {
     meta: {
       fileExt: 'png',
-      basePath: 'dist/assets/art'
+      basePath: 'assets/art'
     }
   };
 
@@ -110,7 +113,7 @@ const getAssetJSON = async () => {
     allFileRefs[key] = allFileRefs[key].filter(x => !x.includes('placeholder'));
   });
 
-  fs.writeJSONSync('artdata.json', allFileRefs);
+  fs.writeJSONSync('dist/artdata.json', allFileRefs);
 
 };
 

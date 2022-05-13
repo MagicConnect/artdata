@@ -3,12 +3,13 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "build": "npm run test && npm run prepare:editordata && npm run generate:manifests && npm run generate:yarndata && npm run generate:nfts",
+    "build": "npm run test && npm run prepare:editordata && npm run generate:manifests && npm run generate:yarndata && npm run generate:nfts && npm run generate:netlifyfiles",
     "test": "npm run test:filetype",
     "test:filetype": "node scripts/test-filetype",
     "prepare:editordata": "node scripts/prepare-editordata",
     "generate:manifests": "node scripts/generate-manifests",
     "generate:yarndata": "node scripts/generate-yarndata",
+    "generate:netlifyfiles": "node scripts/generate-netlifyfiles",
     "generate:nfts": "node scripts/generate-nfts",
     "dangerous:removepunct": "node scripts/removepunct",
     "dangerous:converttopng": "node scripts/converttopng"

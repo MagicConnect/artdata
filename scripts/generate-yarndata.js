@@ -1,7 +1,9 @@
 
 const fs = require('fs-extra');
 
-const artdata = require('../artdata.json');
+fs.ensureDirSync('dist');
+
+const artdata = require('../dist/artdata.json');
 
 const manifest = `
 # Yarn Asset Manifest
@@ -19,4 +21,4 @@ ${artdata.characters.map(x => `* ${x}`).join('\n')}
 ${artdata.npcs.map(x => `* ${x}`).join('\n')}
 `;
 
-fs.writeFileSync('yarn.txt', manifest);
+fs.writeFileSync('dist/yarn.txt', manifest);
