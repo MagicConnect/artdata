@@ -33,12 +33,11 @@ const init = async () => {
     await fs.ensureDir(`dist/nft/${charFileName}`);
 
     const charRef = characterData.find(c => c.art === charFileName);
-    const archetype = charRef ? charRef.archetype : null;
+    const archetype = charRef ? charRef.archetype.toLowerCase() : null;
 
     for await (const i of [1, 2, 3, 4, 5]) {
       if(i !== 5) continue;
 
-      // TODO: temporary until new border
       const FROM_TOP = 50;
       
       const charResized = await Sharp(char)
