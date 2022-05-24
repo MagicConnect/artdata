@@ -30,14 +30,14 @@ const init = async () => {
 
     const charFileName = char.split(path.sep).pop().split('.')[0];
 
-    await fs.ensureDir(`dist/nft/${charFileName}`);
-
     const charRef = characterData.find(c => c.art === charFileName);
     const archetype = charRef ? charRef.archetype.toLowerCase() : null;
 
-    for await (const i of [1, 2, 3, 4, 5]) {
-      if(i !== 5) continue;
+    if(!archetype) continue;
 
+    await fs.ensureDir(`dist/nft/${charFileName}`);
+
+    for await (const i of [1, 2, 3, 4, 5]) {
       const FROM_TOP = 50;
       
       const charResized = await Sharp(char)
@@ -73,11 +73,11 @@ const init = async () => {
 
       await Sharp(`assets/nft/backgrounds/${i}.png`)
         .composite([
-          { input: `assets/nft/circles/defender.png` },
+          ...(archetype ? [{ input: `assets/nft/circles/${archetype}.png` }] : []),
           { input: charResized, top: FROM_TOP, left: 0 },
           ...(archetype ? [{ input: archetypeResized, top: 50, left: 30 }] : []),
           ...stars,
-          { input: `assets/nft/frame.png` },
+          { input: `assets/nft/frames/${i}.png` },
         ]).toFile(url);
     }
   }
