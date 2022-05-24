@@ -78,7 +78,7 @@ const init = async () => {
           ...(archetype ? [{ input: archetypeResized, top: 50, left: 30 }] : []),
           ...stars,
           { input: `assets/nft/frames/${i}.png` },
-        ]).toFile(url);
+        ]).toFile(`dist/${url}`);
     }
   }
 
