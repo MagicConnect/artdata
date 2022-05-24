@@ -68,7 +68,7 @@ const init = async () => {
         left: 580
        }));
 
-      const url = `dist/nft/${charFileName}/${i}.png`;
+      const url = `nft/${charFileName}/${i}.png`;
       urls.push(url);
 
       await Sharp(`assets/nft/backgrounds/${i}.png`)
