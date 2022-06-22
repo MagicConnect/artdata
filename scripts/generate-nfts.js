@@ -10,6 +10,24 @@ Sharp.cache(false);
 // TODO: load this and char class from game manifest
 const disallowedCharacters = ['BerylVegha'];
 
+const buildJSONForCharacter = (character, stars, image) => ({
+  name: `${character.name} ${stars}★`,
+  symbol: `MC`,
+  description: `The ${stars}★ version of ${character.name}, a(n) ${character.archetype} who wields ${character.weapon}-type weapons.`,
+  seller_fee_basis_points: 500,
+  image: `${image}.png`,
+  attributes: [
+    { trait_type: 'Archetype', value: character.archetype },
+    { trait_type: 'Weapon', value: character.weapon }, 
+    { trait_type: 'Stars', value: stars }
+  ],
+  properties: {
+    creators: [{ address: '8x6U7xLVZFwpyXGnBwJNbitHNMXwZKQWcSnVokfjFvHk', share: 100 }],
+    files: [{ uri: `${image}.png`, type: 'image/png' }]
+  },
+  collection: { name: 'Magic Connect! Characters', family: 'Magic Connect!' }
+});
+
 const init = async () => {
 
   fs.ensureDirSync('dist');
@@ -22,8 +40,11 @@ const init = async () => {
   const urls = [];
 
   await fs.ensureDir('dist/nft');
+  await fs.ensureDir(`dist/nft/meta`);
 
   const allCharacters = await readdir('assets/art/characters');
+
+  let currentFile = 0;
 
   for await (const char of allCharacters) {
     if(disallowedCharacters.some(checkChar => char.includes(checkChar))) continue;
@@ -79,6 +100,14 @@ const init = async () => {
           ...stars,
           { input: `assets/nft/frames/${i}.png` },
         ]).toFile(`dist/${url}`);
+
+      fs.copyFileSync(`dist/${url}`, `dist/nft/meta/${currentFile}.png`);
+
+      const json = buildJSONForCharacter(charRef, i, currentFile);
+
+      fs.writeJSONSync(`dist/nft/meta/${currentFile}.json`, json);
+
+      currentFile++;
     }
   }
 
