@@ -8,6 +8,8 @@ const init = async () => {
   const fileHash = {};
 
   files.forEach(file => {
+    if(file.includes('placeholder')) return;
+    
     const fileName = path.basename(file, '.png');
     if(fileHash[fileName]) {
       console.error(`Duplicate file name: ${fileName}`);
