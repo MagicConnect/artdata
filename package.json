@@ -4,8 +4,9 @@
   "description": "",
   "scripts": {
     "build": "npm run test && npm run prepare:editordata && npm run generate:manifests && npm run generate:yarndata && npm run generate:nfts && npm run generate:netlifyfiles",
-    "test": "npm run test:filetype",
+    "test": "npm run test:filetype && npm run test:uniquity",
     "test:filetype": "node scripts/test-filetype",
+    "test:uniquity": "node scripts/test-uniquity",
     "prepare:editordata": "node scripts/prepare-editordata",
     "generate:manifests": "node scripts/generate-manifests",
     "generate:yarndata": "node scripts/generate-yarndata",
